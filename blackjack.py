@@ -37,7 +37,7 @@ class Deck:
                 self.cards.append(Card(suit, rank))
 
     def shuffle(self):
-        if len(self.cards > 1):
+        if len(self.cards) > 1:
             return random.shuffle(self.cards)
 
     def deal(self, numberOfCards):
@@ -50,5 +50,56 @@ class Deck:
         return cardsDealt
 
 
-card = Card("Hearts", {"rank": "K", "value": 10})
-print(card)  # OUTPUT: K of Hearts
+class Hand:
+    def __init__(self, dealer=False):
+        self.cards = []
+        self.value = 0
+        self.dealer = dealer
+
+    def add_card(self, card_list):
+        self.cards = []
+        self.cards.extend(card_list)
+
+    def calculate_value(self):
+        self.value = 0
+        has_ace = False
+        for card in self.cards:
+            card_value = int(card.rank["value"])
+            self.value += card_value
+            if card.rank["rank"] == "A":
+                has_ace = True
+
+        if has_ace and self.value > 21:
+            self.value -= 10
+
+    def get_value(self):
+        self.calculate_value()
+        return self.value
+
+    def is_blackjack(self):
+        return self.get_value() == 21
+
+    def display(self, show_all_dealer_cards=False):
+        print(f"""{"Dealer's" if self.dealer else "Your"} Hand""")
+        for index, card in enumerate(self.cards):
+            if (
+                index == 0
+                and self.dealer
+                and not show_all_dealer_cards
+                and not self.is_blackjack()
+            ):
+                print("hidden")
+            else:
+                print(card)
+
+        if not self.dealer:
+            print(f"Value: {self.get_value()}")
+        print()
+
+
+deck = Deck()
+deck.shuffle()
+
+hand = Hand()
+hand.add_card(deck.deal(2))
+hand.display()
