@@ -1,0 +1,11 @@
+{
+    "reportUnknownMemberType": false,
+    "reportUnknownParameterType": false,
+    "reportMissingParameterType": false,
+    "reportUnknownVariableType": false,
+    "reportUnknownArgumentType": false,
+    "reportUnknownLambdaType": false,
+    "reportGeneralTypeIssues": false,
+    "reportUnboundVariable": false,
+    "reportUnusedVariable": false,
+}
